@@ -1,0 +1,27 @@
+{
+  "general": {
+    "app_name": "tasks",
+    "some_thing_went_wrong": "حدث خطأ"
+  },
+  "tasks_screen": {
+    "tasks": "المهام",
+    "delete": "حذف",
+    "delete_all": "حذف الكل",
+    "edit": "تعديل",
+    "all": "الكل",
+    "new_task": "جديد",
+    "pending": "قيد التنفيذ",
+    "done": "انتهت",
+    "search": "ابحث هنا...",
+    "no": "لا",
+    "yes": "نعم"
+    },
+  "create_task": {
+    "title": "اضف مهمة",
+    "task_title": "عنوان المهمة",
+    "task_title_validation": "عنوان المهمة مطلوب",
+    "date": "التاريخ",
+    "task_status": "حالة المهمة",
+    "add": "اضف"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "general": {
+    "app_name": "tasks",
+    "some_thing_went_wrong": "حدث خطأ"
+  },
+  "tasks_screen": {
+    "tasks": "Tasks",
+    "delete": "Delete",
+    "delete_all": "Delete all",
+    "edit": "Edit",
+    "all": "All",
+    "new_task": "New",
+    "pending": "Pending",
+    "done": "Done",
+    "search": "Search her...",
+    "no": "No",
+    "yes": "Yes"
+  },
+  "create_task": {
+    "title": "Create task",
+    "task_title": "Title",
+    "task_title_validation": "Title required",
+    "date": "Date",
+    "task_status": "Status",
+    "add": "Add"
+  }
+}
