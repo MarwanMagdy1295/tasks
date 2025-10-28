@@ -29,18 +29,45 @@ class TasksScreenCubit extends BaseCubit<TasksScreenState>
   List<TaskModel> tasks = [];
   List<TaskModel> backupTasks = [];
   String selectedFilter = TaskFilter.all.value;
+  int currentPage = 0;
+  ScrollController? scrollController;
 
-  getTasks() async {
-    emit(TasksScreenLoading());
+  void onScroll() {
+    scrollController = ScrollController();
+    scrollController?.addListener(() {
+      if (scrollController!.position.pixels >=
+          scrollController!.position.maxScrollExtent) {
+        emit(TasksScreenDeleteTaskScrollLoading());
+        getTasks(); // Load next page
+      }
+    });
+    if (currentPage == 0) {
+      getTasks();
+    }
+  }
+
+  getTasks({bool reset = false}) async {
+    if (reset) {
+      emit(TasksScreenLoading());
+      currentPage = 0;
+      tasks.clear();
+      backupTasks.clear();
+    }
     await _tasksScreenRepository
-        .getTasks(status: selectedFilter)
+        .getTasks(
+          status: selectedFilter.toLowerCase(),
+          pageSize: 5,
+          currentPage: currentPage,
+          oldTasks: tasks,
+        )
         .then((value) {
-          Timer(const Duration(seconds: 2), () {
+          Timer(const Duration(milliseconds: 500), () {
             if (kDebugMode) {
               print('⏰ Timer to give a chance to loading state to appear 😁');
             }
-            tasks = value?.reversed.toList() ?? [];
-            backupTasks = value?.reversed.toList() ?? [];
+            tasks = value ?? [];
+            backupTasks = value ?? [];
+            currentPage++;
             emit(TasksScreenSuccess());
           });
         })
@@ -68,26 +95,28 @@ class TasksScreenCubit extends BaseCubit<TasksScreenState>
   }
 
   selectFilter(Map<String, bool> filter) {
-    for (var map in taskStatus) {
-      if (map.keys.first == filter.keys.first) {
-        map.update(filter.keys.first, (value) => true);
-      } else {
-        map.update(map.keys.first, (value) => false);
+    if (filter.keys.first.toLowerCase() != selectedFilter) {
+      for (var map in taskStatus) {
+        if (map.keys.first == filter.keys.first) {
+          map.update(filter.keys.first, (value) => true);
+        } else {
+          map.update(map.keys.first, (value) => false);
+        }
       }
+      selectedFilter = filter.keys.first.toLowerCase();
+      if (kDebugMode) {
+        print(selectedFilter);
+      }
+      searchController.clear();
+      getTasks(reset: true);
     }
-    selectedFilter = filter.keys.first;
-    if (kDebugMode) {
-      print(selectedFilter);
-    }
-    searchController.clear();
-    getTasks();
   }
 
   deleteTask(TaskModel task) {
     emit(TasksScreenLoading());
     Timer(const Duration(seconds: 1), () {
       task.delete();
-      getTasks();
+      getTasks(reset: true);
     });
   }
 

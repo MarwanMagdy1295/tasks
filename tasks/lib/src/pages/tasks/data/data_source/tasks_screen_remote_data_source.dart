@@ -3,7 +3,12 @@ import 'package:hive_ce_flutter/hive_flutter.dart';
 import 'package:tasks/src/models/task_model.dart';
 
 abstract class TasksScreenRemoteDataSourceInterface {
-  Future<List<TaskModel>?> getTasks({String? status});
+  Future<List<TaskModel>?> getTasks({
+    String? status,
+    required int pageSize,
+    required int currentPage,
+    required List<TaskModel> oldTasks,
+  });
   Future<void> deleteAllTasks();
 }
 
@@ -11,13 +16,25 @@ class TasksScreenRemoteDataSource extends TasksScreenRemoteDataSourceInterface {
   TasksScreenRemoteDataSource();
 
   @override
-  Future<List<TaskModel>?> getTasks({String? status}) async {
+  Future<List<TaskModel>?> getTasks({
+    String? status,
+    required int pageSize,
+    required int currentPage,
+    required List<TaskModel> oldTasks,
+  }) async {
     try {
       var taskBox = Hive.box<TaskModel>('tasksBox');
-      if (kDebugMode) {
-        print(taskBox.values.toList());
+      List<TaskModel> tasks = [];
+      final total = taskBox.length;
+      final start = currentPage * pageSize;
+      // final end = (start + pageSize < total) ? start + pageSize : total;
+      if (start < total) {
+        final newItems = taskBox.values.skip(start).take(pageSize).toList();
+        tasks = oldTasks;
+        tasks.addAll(newItems);
+      } else {
+        tasks = oldTasks;
       }
-      List<TaskModel> tasks = taskBox.values.toList();
       switch (status) {
         case 'new':
           return tasks.where((task) => task.status == 'new').toList();
@@ -26,6 +43,9 @@ class TasksScreenRemoteDataSource extends TasksScreenRemoteDataSourceInterface {
         case 'done':
           return tasks.where((task) => task.status == 'done').toList();
         default:
+          if (kDebugMode) {
+            print(tasks.toList());
+          }
           return tasks;
       }
     } catch (e) {

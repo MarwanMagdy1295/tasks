@@ -18,15 +18,13 @@ import 'package:tasks/src/pages/tasks/presentation/components/task_card.dart';
 import 'package:tasks/src/pages/tasks/presentation/controller/cubit/tasks_screen_cubit.dart';
 import 'package:tasks/src/pages/tasks/presentation/controller/cubit/tasks_screen_state.dart';
 
-int currentIndex = 0;
-
 class TasksScreen extends StatelessWidget {
   const TasksScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => di<TasksScreenCubit>()..getTasks(),
+      create: (context) => di<TasksScreenCubit>()..onScroll(),
       child: BlocConsumer<TasksScreenCubit, TasksScreenState>(
         listener: (context, state) {},
         builder: (context, state) {
@@ -47,7 +45,8 @@ class TasksScreen extends StatelessWidget {
                   );
                   if (taskCreated == true) {
                     //refresh screen
-                    cubit.getTasks();
+                    cubit.selectedFilter = TaskFilter.all.value;
+                    cubit.getTasks(reset: true);
                   }
                 },
                 shape: RoundedRectangleBorder(
@@ -193,6 +192,7 @@ class TasksScreen extends StatelessWidget {
                                         ? 6
                                         : cubit.tasks.length,
                                     shrinkWrap: true,
+                                    controller: cubit.scrollController,
                                     physics: BouncingScrollPhysics(),
                                     padding: EdgeInsets.only(
                                       left: 16,
@@ -213,6 +213,8 @@ class TasksScreen extends StatelessWidget {
                                   ),
                                 ),
                               ),
+                        if (state is TasksScreenDeleteTaskScrollLoading)
+                          LoadingWidget(),
                       ],
                     ),
                     if (state is TasksScreenDeleteTaskLoading)
