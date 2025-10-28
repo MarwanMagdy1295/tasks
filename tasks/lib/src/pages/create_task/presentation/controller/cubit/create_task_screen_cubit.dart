@@ -27,7 +27,7 @@ class CreateTaskScreenCubit extends BaseCubit<CreateTaskScreenState>
       titleController.text = task.taskTitle ?? '';
       dateController.text = task.createdAt ?? '';
       date = task.createdAt ?? '';
-      selectedState = task.status ?? '';
+      selectedState = task.status;
     }
   }
 
@@ -43,7 +43,7 @@ class CreateTaskScreenCubit extends BaseCubit<CreateTaskScreenState>
       } else {
         newTask.taskTitle = titleController.text;
         newTask.createdAt = date ?? DateFormat('y-M-d').format(DateTime.now());
-        newTask.status = selectedState;
+        newTask.status = 'new';
         await _addTaskScreenRepository
             .addTask(task: newTask)
             .then((value) {

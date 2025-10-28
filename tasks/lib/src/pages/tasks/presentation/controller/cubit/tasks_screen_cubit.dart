@@ -111,10 +111,10 @@ class TasksScreenCubit extends BaseCubit<TasksScreenState>
 }
 
 enum TaskFilter {
-  all('All'),
-  newTask('New'),
-  pending('Pending'),
-  done('Done');
+  all('all'),
+  newTask('new'),
+  pending('pending'),
+  done('done');
 
   final String value;
   const TaskFilter(this.value);

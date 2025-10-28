@@ -19,11 +19,11 @@ class TasksScreenRemoteDataSource extends TasksScreenRemoteDataSourceInterface {
       }
       List<TaskModel> tasks = taskBox.values.toList();
       switch (status) {
-        case 'New':
+        case 'new':
           return tasks.where((task) => task.status == 'new').toList();
-        case 'Pending':
+        case 'pending':
           return tasks.where((task) => task.status == 'pending').toList();
-        case 'Done':
+        case 'done':
           return tasks.where((task) => task.status == 'done').toList();
         default:
           return tasks;
