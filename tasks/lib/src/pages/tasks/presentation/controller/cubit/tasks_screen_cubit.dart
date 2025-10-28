@@ -108,7 +108,7 @@ class TasksScreenCubit extends BaseCubit<TasksScreenState>
         print(selectedFilter);
       }
       searchController.clear();
-      getTasks(reset: true);
+      getTasks();
     }
   }
 
