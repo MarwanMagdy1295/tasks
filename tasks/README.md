@@ -65,3 +65,6 @@ lib/
                                 └── tasks_screen_state.dart
                         └── ui
                            └── tasks.dart
+
+
+## Note =>> i make timer when get data to present loading state and loading state component
