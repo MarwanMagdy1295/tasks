@@ -14,6 +14,16 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart' as _svg;
 import 'package:vector_graphics/vector_graphics.dart' as _vg;
 
+class $AssetsDataGen {
+  const $AssetsDataGen();
+
+  /// File path: assets/data/trips_mock.json
+  String get tripsMock => 'assets/data/trips_mock.json';
+
+  /// List of all assets
+  List<String> get values => [tripsMock];
+}
+
 class $AssetsIconsGen {
   const $AssetsIconsGen();
 
@@ -27,6 +37,9 @@ class $AssetsIconsGen {
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  /// File path: assets/images/Vector.png
+  AssetGenImage get vector => const AssetGenImage('assets/images/Vector.png');
+
   /// File path: assets/images/no_task.jpg
   AssetGenImage get noTask => const AssetGenImage('assets/images/no_task.jpg');
 
@@ -34,7 +47,7 @@ class $AssetsImagesGen {
   SvgGenImage get trashIcon => const SvgGenImage('assets/images/trash_icon.svg');
 
   /// List of all assets
-  List<dynamic> get values => [noTask, trashIcon];
+  List<dynamic> get values => [vector, noTask, trashIcon];
 }
 
 class $AssetsTranslationsGen {
@@ -53,6 +66,7 @@ class $AssetsTranslationsGen {
 class Assets {
   const Assets._();
 
+  static const $AssetsDataGen data = $AssetsDataGen();
   static const $AssetsIconsGen icons = $AssetsIconsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
   static const $AssetsTranslationsGen translations = $AssetsTranslationsGen();

@@ -2,9 +2,14 @@
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tasks/src/core/utils/app_colors.dart';
 import 'package:tasks/src/core/utils/app_text_theme.dart';
+import 'package:tasks/src/pages/posts/data/repository/posts_screen_repository.dart';
+import 'package:tasks/src/pages/posts/presentation/controller/cubit/posts_screen_cubit.dart';
+import 'package:tasks/src/pages/posts/presentation/ui/main_screen.dart';
+import 'package:tasks/src/pages/posts/presentation/ui/posts_screen.dart';
 import 'package:tasks/src/pages/tasks/presentation/ui/tasks_screen.dart';
 
 class AppLayout extends StatelessWidget {
@@ -54,7 +59,10 @@ class AppLayout extends StatelessWidget {
               foregroundColor: AppColors.white,
             ),
           ),
-          home: const TasksScreen(),
+          home: BlocProvider(
+            create: (_) => TripsCubit(TripRepository())..fetchTrips(),
+            child: const MainLayout(),
+          ),
         ),
       ),
     );

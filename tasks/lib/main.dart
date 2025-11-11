@@ -8,7 +8,7 @@ import 'package:tasks/src/app/di_service.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
-  await DiService.init();
+  // await DiService.init();
   // await Hive.initFlutter();
   // Hive.registerAdapter(CustomerModelAdapter());
   // tasksBox = await Hive.openBox<TaskModel>('tasksBox');
